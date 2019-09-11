@@ -23,11 +23,14 @@ int main()
     serverAddr.sin_port = htons(9993);
 
     // to send RST on close
-    struct linger l;
-    l.l_onoff = 1;
-    l.l_linger = 0;
-    setsockopt(fd, SOL_SOCKET, SO_LINGER, &l, sizeof(l));
-
+    //bool sendRST = true; // send RST
+    bool sendRST = false; // send FIN
+    if (sendRST) {
+        struct linger l;
+        l.l_onoff = 1;
+        l.l_linger = 0;
+        setsockopt(fd, SOL_SOCKET, SO_LINGER, &l, sizeof(l));
+    }
 
     int b = bind(fd, (struct sockaddr *)&serverAddr, sizeof(serverAddr));
     if (b<0){

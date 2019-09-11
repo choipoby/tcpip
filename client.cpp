@@ -35,7 +35,10 @@ int main()
     }
 
     if (n <= 0) {
-        printf("n:%d, errno:%d\n", n, errno);
+        int optVal;
+        int optValLen = sizeof(optVal);
+        int err = getsockopt(fd, SOL_SOCKET, SO_ERROR, (void *)&optVal, (socklen_t *)&optValLen);
+        printf("n:%d, err:%d, errno:%d\n", n, err, errno);
     }
 
     return 0;
